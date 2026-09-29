@@ -12,7 +12,7 @@ export const PROVIDERS = [
   { id: 'perplexity', label: 'Perplexity', url: 'https://www.perplexity.ai/',  origin: 'https://www.perplexity.ai',  altOrigins: ['https://perplexity.ai'], hasContentScript: true },
   { id: 'zai',      label: 'Z.ai',      url: 'https://chat.z.ai/',            origin: 'https://chat.z.ai',          hasContentScript: true },
   { id: 'yuanbao',  label: 'Yuanbao',   url: 'https://yuanbao.tencent.com/chat/naQivTmsDa/', origin: 'https://yuanbao.tencent.com', hasContentScript: true },
-  { id: 'google-ai', label: 'Google AI Mode', url: 'https://www.google.com/',  origin: 'https://www.google.com',     hasContentScript: true },
+  { id: 'google-ai', label: 'Google AI Mode', url: 'https://www.google.com/ai', origin: 'https://www.google.com',     hasContentScript: true },
   { id: 'brave-search', label: 'Brave Search', url: 'https://search.brave.com/', origin: 'https://search.brave.com', hasContentScript: true },
   { id: 'mistral',  label: 'Mistral',   url: 'https://chat.mistral.ai/chat',  origin: 'https://chat.mistral.ai',    altOrigins: ['https://mistral.ai', 'https://www.mistral.ai'], hasContentScript: true },
   { id: 'copilot',  label: 'Microsoft Copilot', url: 'https://copilot.cloud.microsoft/', origin: 'https://copilot.cloud.microsoft', hasContentScript: true },

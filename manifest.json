@@ -303,7 +303,6 @@
       ],
       "js": [
         "src/providers/_runtime.js",
-        "src/providers/_generic.js",
         "src/providers/google-ai/content.js"
       ],
       "all_frames": true,
