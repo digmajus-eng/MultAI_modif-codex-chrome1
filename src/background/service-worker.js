@@ -3,6 +3,7 @@ const COCKPIT_URL = chrome.runtime.getURL('src/cockpit/cockpit.html');
 const PROVIDER_DOMAINS = [
   'chatgpt.com',
   'claude.ai',
+  'claude.com',
   'gemini.google.com',
   'grok.com',
   'deepseek.com',

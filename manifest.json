@@ -34,6 +34,8 @@
     "https://*.chatgpt.com/*",
     "https://claude.ai/*",
     "https://*.claude.ai/*",
+    "https://claude.com/*",
+    "https://*.claude.com/*",
     "https://gemini.google.com/*",
     "https://grok.com/*",
     "https://*.grok.com/*",
@@ -88,6 +90,8 @@
         "https://*.chatgpt.com/*",
         "https://claude.ai/*",
         "https://*.claude.ai/*",
+        "https://claude.com/*",
+        "https://*.claude.com/*",
         "https://gemini.google.com/*",
         "https://grok.com/*",
         "https://*.grok.com/*",
@@ -148,7 +152,9 @@
     {
       "matches": [
         "https://claude.ai/*",
-        "https://*.claude.ai/*"
+        "https://*.claude.ai/*",
+        "https://claude.com/*",
+        "https://*.claude.com/*"
       ],
       "js": [
         "src/providers/_runtime.js",
@@ -366,7 +372,7 @@
     }
   ],
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://chatgpt.com https://*.chatgpt.com https://claude.ai https://*.claude.ai https://gemini.google.com https://grok.com https://*.grok.com https://chat.deepseek.com https://*.deepseek.com https://chat.qwen.ai https://*.qwen.ai https://meta.ai https://*.meta.ai https://giga.chat https://*.giga.chat https://alice.yandex.ru https://ya.ru https://yandex.ru https://www.yandex.ru https://*.yandex.ru https://kimi.ai https://*.kimi.ai https://perplexity.ai https://*.perplexity.ai https://chat.z.ai https://*.z.ai https://yuanbao.tencent.com https://*.yuanbao.tencent.com https://google.com https://*.google.com https://search.brave.com https://mistral.ai https://*.mistral.ai https://copilot.cloud.microsoft https://*.cloud.microsoft https://yandex.com https://www.yandex.com https://*.yandex.com https://dzen.ru https://*.dzen.ru"
+    "extension_pages": "script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://chatgpt.com https://*.chatgpt.com https://claude.ai https://*.claude.ai https://claude.com https://*.claude.com https://gemini.google.com https://grok.com https://*.grok.com https://chat.deepseek.com https://*.deepseek.com https://chat.qwen.ai https://*.qwen.ai https://meta.ai https://*.meta.ai https://giga.chat https://*.giga.chat https://alice.yandex.ru https://ya.ru https://yandex.ru https://www.yandex.ru https://*.yandex.ru https://kimi.ai https://*.kimi.ai https://perplexity.ai https://*.perplexity.ai https://chat.z.ai https://*.z.ai https://yuanbao.tencent.com https://*.yuanbao.tencent.com https://google.com https://*.google.com https://search.brave.com https://mistral.ai https://*.mistral.ai https://copilot.cloud.microsoft https://*.cloud.microsoft https://yandex.com https://www.yandex.com https://*.yandex.com https://dzen.ru https://*.dzen.ru"
   },
   "options_ui": {
     "page": "src/options/options.html",

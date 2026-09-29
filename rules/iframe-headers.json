@@ -47,6 +47,7 @@
       "requestDomains": [
         "chatgpt.com",
         "claude.ai",
+        "claude.com",
         "gemini.google.com",
         "grok.com",
         "deepseek.com",

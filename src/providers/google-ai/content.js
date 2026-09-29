@@ -13,8 +13,11 @@
   const S = {
     promptInput: [
       'textarea[name="q"]',
+      'input[name="q"]',
       'textarea[aria-label*="Ask" i]',
       'textarea[aria-label*="Search" i]',
+      'input[aria-label*="Ask" i]',
+      'input[aria-label*="Search" i]',
       '[role="textbox"][contenteditable="true"][aria-label*="Ask" i]',
       '[role="textbox"][contenteditable="true"][aria-label*="Search" i]',
       'form textarea'
@@ -24,7 +27,8 @@
       'button[aria-label*="Send" i]',
       'button[aria-label*="Search" i]',
       'button[type="submit"]',
-      'input[type="submit"]'
+      'input[type="submit"]',
+      'input[name="btnK"]'
     ],
     stopButton: [
       'button[aria-label*="Stop" i]',
