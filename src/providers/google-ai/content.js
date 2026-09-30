@@ -20,12 +20,20 @@
       'input[aria-label*="Search" i]',
       '[role="textbox"][contenteditable="true"][aria-label*="Ask" i]',
       '[role="textbox"][contenteditable="true"][aria-label*="Search" i]',
-      'form textarea'
+      'form textarea',
+      // AI Mode localizes its placeholder and may place the composer in an
+      // open shadow root, so keep these structural fallbacks last.
+      '[contenteditable="true"]',
+      'textarea',
+      'input[type="search"]',
+      'input[type="text"]'
     ],
     sendButton: [
       'button[aria-label*="Submit" i]',
       'button[aria-label*="Send" i]',
       'button[aria-label*="Search" i]',
+      'button[aria-label*="Отправ" i]',
+      'button[aria-label*="Поиск" i]',
       'button[type="submit"]',
       'input[type="submit"]',
       'input[name="btnK"]'
@@ -56,6 +64,68 @@
     return !!button && !button.disabled && button.getAttribute('aria-disabled') !== 'true' && R.isUsable(button);
   }
 
+  function openRoots() {
+    const roots = [document];
+    const seen = new Set(roots);
+    for (let index = 0; index < roots.length; index++) {
+      const root = roots[index];
+      const elements = root.querySelectorAll ? root.querySelectorAll('*') : [];
+      for (const element of elements) {
+        if (element.shadowRoot && !seen.has(element.shadowRoot)) {
+          seen.add(element.shadowRoot);
+          roots.push(element.shadowRoot);
+        }
+      }
+    }
+    return roots;
+  }
+
+  function promptScore(input) {
+    const rect = input.getBoundingClientRect();
+    const label = [
+      input.getAttribute('aria-label'), input.getAttribute('placeholder'), input.name
+    ].filter(Boolean).join(' ').toLowerCase();
+    let score = 0;
+    if (/ask|search|question|спрос|вопрос|задай/.test(label)) score += 100;
+    if (input.matches('[contenteditable="true"], textarea')) score += 20;
+    if (rect.width >= 260) score += 15;
+    if (rect.top >= 100) score += 10;
+    if (input.closest('main, [role="main"]')) score += 10;
+    return score;
+  }
+
+  function findFirstDeep(selectors) {
+    for (const root of openRoots()) {
+      for (const selector of selectors) {
+        try {
+          for (const element of root.querySelectorAll(selector)) {
+            if (isEnabled(element)) return element;
+          }
+        } catch (_) { /* continue with the next selector */ }
+      }
+    }
+    return null;
+  }
+
+  function findPromptInput() {
+    const candidates = [];
+    const seen = new Set();
+    for (const root of openRoots()) {
+      for (const selector of S.promptInput) {
+        try {
+          for (const input of root.querySelectorAll(selector)) {
+            if (R.isUsable(input) && !seen.has(input)) {
+              seen.add(input);
+              candidates.push(input);
+            }
+          }
+        } catch (_) { /* continue with the next selector */ }
+      }
+    }
+    candidates.sort((a, b) => promptScore(b) - promptScore(a));
+    return candidates[0] || null;
+  }
+
   function findSendButton(input) {
     // Google can render multiple search forms (header, page body, dialogs).
     // Prefer the submit control belonging to the composer we actually filled.
@@ -69,12 +139,11 @@
       const button = R.findFirst(S.sendButton, composer);
       if (isEnabled(button)) return button;
     }
-    const button = R.findFirstVisible(S.sendButton);
-    return isEnabled(button) ? button : null;
+    return findFirstDeep(S.sendButton);
   }
 
   async function probe() {
-    const input = R.findFirstVisible(S.promptInput);
+    const input = findPromptInput();
     return {
       ready: !!input,
       generating: !!R.findFirst(S.stopButton)
@@ -84,8 +153,14 @@
   async function broadcast({ prompt, files, skipSubmit }) {
     if (files?.length) throw new Error('Google AI Mode attachments are not supported yet');
 
-    const input = await R.waitFor(() => R.findFirstVisible(S.promptInput), 15000);
+    const input = await R.waitFor(findPromptInput, 15000);
     if (!input) throw new Error('Google AI Mode prompt input not found');
+
+    console.info('[multai-google-ai] prompt input found', {
+      tag: input.tagName,
+      ariaLabel: input.getAttribute('aria-label'),
+      placeholder: input.getAttribute('placeholder')
+    });
 
     await R.setPrompt(input, prompt);
     if (skipSubmit) return;
