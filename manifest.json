@@ -364,7 +364,6 @@
       ],
       "js": [
         "src/providers/_runtime.js",
-        "src/providers/_generic.js",
         "src/providers/yandex-search/content.js"
       ],
       "all_frames": true,
