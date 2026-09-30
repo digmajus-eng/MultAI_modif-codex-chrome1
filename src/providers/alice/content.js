@@ -48,40 +48,5 @@
     ]
   };
 
-  const SIDEBAR_COLLAPSE = [
-    'button[aria-label*="Скрыть боковую панель" i]',
-    'button[aria-label*="Свернуть боковую панель" i]',
-    'button[aria-label*="Скрыть историю" i]',
-    'button[title*="Скрыть боковую панель" i]',
-    '[data-testid*="sidebar-toggle" i][aria-expanded="true"]'
-  ];
-
-  function collapseSidebar() {
-    const button = R.findFirstVisible(SIDEBAR_COLLAPSE);
-    if (!button) return false;
-    try {
-      button.click();
-      console.info('[multai-alice] sidebar collapsed');
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  // Alice can re-render its navigation after sign-in or an internal route
-  // change. Keep trying until it is collapsed, without touching it again once
-  // the matching expanded-state control has disappeared.
-  function watchSidebar() {
-    let done = collapseSidebar();
-    if (done) return;
-    const observer = new MutationObserver(() => {
-      if (collapseSidebar()) observer.disconnect();
-    });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
-    setTimeout(() => observer.disconnect(), 30000);
-  }
-
-  watchSidebar();
-
   G.register({ provider: 'alice', selectors: S, homeUrl: 'https://alice.yandex.ru/' });
 })();

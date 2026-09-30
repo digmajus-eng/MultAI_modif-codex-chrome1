@@ -13,12 +13,6 @@
       'input[aria-label*="Поиск" i]',
       'input[placeholder*="Найдётся" i]'
     ],
-    sendButton: [
-      'button[type="submit"]',
-      'input[type="submit"]',
-      'button[aria-label*="Найти" i]',
-      'button[aria-label*="Поиск" i]'
-    ],
     stopButton: [
       'button[aria-label*="Stop" i]',
       'button[aria-label*="Cancel" i]'
@@ -32,22 +26,8 @@
     copyButton: ['button[aria-label*="Copy" i]', 'button[data-testid*="copy" i]']
   };
 
-  function isEnabled(button) {
-    return !!button && !button.disabled && button.getAttribute('aria-disabled') !== 'true' && R.isUsable(button);
-  }
-
   function findInput() {
     return R.findFirstVisible(S.promptInput);
-  }
-
-  function findSubmitButton(input) {
-    const form = input.closest('form');
-    if (form) {
-      const button = R.findFirst(S.sendButton, form);
-      if (isEnabled(button)) return button;
-    }
-    const button = R.findFirstVisible(S.sendButton);
-    return isEnabled(button) ? button : null;
   }
 
   function setSearchValue(input, text) {
@@ -80,22 +60,13 @@
     setSearchValue(input, prompt);
     if (skipSubmit) return;
 
-    const button = await R.waitFor(() => findSubmitButton(input), 5000, 80);
-    const form = input.closest('form');
-    if (form?.requestSubmit) {
-      // Calling click() on Yandex's visual button can update its UI without
-      // submitting a subsequent query. requestSubmit() follows the browser's
-      // form-submit path and reaches Yandex's search handler reliably.
-      form.requestSubmit(button?.form === form ? button : undefined);
-      console.info('[multai-yandex-search] query submitted through form');
-      return;
-    }
-    if (button) {
-      button.click();
-      console.info('[multai-yandex-search] query submitted');
-      return;
-    }
-    throw new Error('Yandex Search submit button not found');
+    // Search results can replace Yandex's form while retaining a visual input.
+    // Navigating to the documented search URL is deterministic for every query
+    // and avoids relying on a stale React button handler after the first one.
+    const url = new URL('/search/', location.origin);
+    url.searchParams.set('text', prompt);
+    console.info('[multai-yandex-search] navigating to submitted query');
+    location.assign(url.href);
   }
 
   async function newChat() {
