@@ -440,10 +440,21 @@ function createPane(provider) {
   panes[provider.id] = { iframe, fallback, ready: false, state: null, element: pane };
 
   if (provider.hasContentScript) {
-    // Wake the content script once the iframe has finished loading, and keep
-    // waking every 500ms until it reports ready (the content script replies
-    // with multai:ready on receipt of multai:wake).
-    iframe.addEventListener('load', () => wakePane(provider.id), { once: true });
+    // A provider can navigate the iframe after its first prompt (Yandex Search
+    // does this). The previous content script is then destroyed, so every load
+    // must reset readiness and wake the script injected into the new document.
+    // This listener deliberately is not `once`.
+    iframe.addEventListener('load', () => {
+      const currentPane = panes[provider.id];
+      if (!currentPane) return;
+      currentPane.ready = false;
+      currentPane.state = null;
+      if (currentPane.fallback) currentPane.fallback.hidden = true;
+      if (currentPane.iframe) currentPane.iframe.style.opacity = '';
+      updatePaneHeader(provider.id);
+      startReadyWatchdog(provider.id);
+      wakePane(provider.id);
+    });
     startReadyWatchdog(provider.id);
   } else {
     iframe.addEventListener('load', () => {
@@ -721,7 +732,6 @@ function reloadPane(providerId, newUrl) {
   if (p.fallback) p.fallback.hidden = true;
   if (p.iframe) p.iframe.style.opacity = '';
   updatePaneHeader(providerId);
-  p.iframe.addEventListener('load', () => wakePane(providerId), { once: true });
   if (newUrl) p.iframe.src = newUrl;
   else p.iframe.src = p.iframe.src;
   const provider = getProvider(providerId);
