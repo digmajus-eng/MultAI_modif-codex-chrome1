@@ -81,16 +81,18 @@
     if (skipSubmit) return;
 
     const button = await R.waitFor(() => findSubmitButton(input), 5000, 80);
+    const form = input.closest('form');
+    if (form?.requestSubmit) {
+      // Calling click() on Yandex's visual button can update its UI without
+      // submitting a subsequent query. requestSubmit() follows the browser's
+      // form-submit path and reaches Yandex's search handler reliably.
+      form.requestSubmit(button?.form === form ? button : undefined);
+      console.info('[multai-yandex-search] query submitted through form');
+      return;
+    }
     if (button) {
       button.click();
       console.info('[multai-yandex-search] query submitted');
-      return;
-    }
-
-    const form = input.closest('form');
-    if (form?.requestSubmit) {
-      form.requestSubmit();
-      console.info('[multai-yandex-search] query submitted through form');
       return;
     }
     throw new Error('Yandex Search submit button not found');
