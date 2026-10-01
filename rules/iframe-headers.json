@@ -47,6 +47,7 @@
       "requestDomains": [
         "chatgpt.com",
         "claude.ai",
+        "claude.com",
         "gemini.google.com",
         "grok.com",
         "deepseek.com",
@@ -57,6 +58,7 @@
         "ya.ru",
         "kimi.ai",
         "perplexity.ai",
+        "www.perplexity.ai",
         "z.ai",
         "tencent.com",
         "google.com",

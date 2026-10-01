@@ -1,6 +1,6 @@
 export const PROVIDERS = [
   { id: 'chatgpt',  label: 'ChatGPT',   url: 'https://chatgpt.com/',          temporaryUrl: 'https://chatgpt.com/?temporary-chat=true',   origin: 'https://chatgpt.com',       hasContentScript: true },
-  { id: 'claude',   label: 'Claude',    url: 'https://claude.ai/new',         temporaryUrl: 'https://claude.ai/new?incognito',            origin: 'https://claude.ai',         hasContentScript: true },
+  { id: 'claude',   label: 'Claude',    url: 'https://claude.ai/new',         temporaryUrl: 'https://claude.ai/new?incognito',            origin: 'https://claude.ai',         altOrigins: ['https://claude.com'], hasContentScript: true },
   { id: 'gemini',   label: 'Gemini',    url: 'https://gemini.google.com/app', temporaryUrl: 'https://gemini.google.com/app#temporary-chat',      origin: 'https://gemini.google.com', hasContentScript: true },
   { id: 'grok',     label: 'Grok',      url: 'https://grok.com/',             temporaryUrl: 'https://grok.com/#private',                        origin: 'https://grok.com',          hasContentScript: true },
   { id: 'meta',     label: 'Meta AI',   url: 'https://www.meta.ai/',                                                                      origin: 'https://www.meta.ai',       hasContentScript: true },
@@ -12,7 +12,7 @@ export const PROVIDERS = [
   { id: 'perplexity', label: 'Perplexity', url: 'https://www.perplexity.ai/',  origin: 'https://www.perplexity.ai',  altOrigins: ['https://perplexity.ai'], hasContentScript: true },
   { id: 'zai',      label: 'Z.ai',      url: 'https://chat.z.ai/',            origin: 'https://chat.z.ai',          hasContentScript: true },
   { id: 'yuanbao',  label: 'Yuanbao',   url: 'https://yuanbao.tencent.com/chat/naQivTmsDa/', origin: 'https://yuanbao.tencent.com', hasContentScript: true },
-  { id: 'google-ai', label: 'Google AI Mode', url: 'https://www.google.com/',  origin: 'https://www.google.com',     hasContentScript: true },
+  { id: 'google-ai', label: 'Google AI Mode', url: 'https://www.google.com/ai', origin: 'https://www.google.com',     hasContentScript: true },
   { id: 'brave-search', label: 'Brave Search', url: 'https://search.brave.com/', origin: 'https://search.brave.com', hasContentScript: true },
   { id: 'mistral',  label: 'Mistral',   url: 'https://chat.mistral.ai/chat',  origin: 'https://chat.mistral.ai',    altOrigins: ['https://mistral.ai', 'https://www.mistral.ai'], hasContentScript: true },
   { id: 'copilot',  label: 'Microsoft Copilot', url: 'https://copilot.cloud.microsoft/', origin: 'https://copilot.cloud.microsoft', hasContentScript: true },
