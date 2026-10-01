@@ -16,6 +16,7 @@ const PROVIDER_DOMAINS = [
   'ya.ru',
   'kimi.ai',
   'perplexity.ai',
+  'www.perplexity.ai',
   'z.ai',
   'tencent.com',
   'google.com',
